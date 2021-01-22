@@ -14,15 +14,22 @@ body {
     background-color: #f0f2f5;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding:0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 header {
     background-color: #2D4A22;
     padding: 2rem 0 10rem;
     text-align: center;
-}
-
-header h1 {
-    font-weight: 100;
-    color: #fff;
 }
 
 .container {
@@ -109,15 +116,20 @@ table tbody tr {
 table tbody tr:hover {
     opacity: 1;
 }
+
 td.description {
     color: var(--dark-blue);
 }
+
 td.income {
-color: #12A454;
+    color: #12A454;
 }
+
 td.expense {
     color: #e92929;
 }
+
+
 /* Footer */
 
 footer {
