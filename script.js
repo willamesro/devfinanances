@@ -7,14 +7,18 @@ const Modal = {
 
     }
 }
+const Storage = {
+    get() {
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+    },
+    set(transactions) {
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+    }
+
+}
 
 const Transactions = {
-    all: [
-        { description: 'Luz', amount: -50000, date: '18/01/2021' },
-        { description: 'Criação de Website', amount: 500000, date: '14/01/2021' },
-        { description: 'Internet', amount: -20000, date: '29/01/2021' },
-        { description: 'Lanche', amount: -5000, date: '29/01/2021' }
-    ],
+    all: Storage.get(),
     add(transaction) {
         Transactions.all.push(transaction)
         App.reload()
@@ -91,15 +95,16 @@ const Utils = {
         return signal + value
     },
     formatAmount(value) {
-        value = Number(value) *100
+        value = Number(value) * 100
         return value
     },
     formatDate(value) {
         const splitedDate = value.split('-')
         console.log(splitedDate);
-        return splitedDate[2]+'/'+splitedDate[1]+'/'+splitedDate[0]
+        return splitedDate[2] + '/' + splitedDate[1] + '/' + splitedDate[0]
     }
 }
+
 const Form = {
     description: document.querySelector('input#description'),
     amount: document.querySelector('input#amount'),
@@ -137,13 +142,13 @@ const Form = {
         let { description, amount, date } = this.getValues()
         amount = Utils.formatAmount(amount)
         date = Utils.formatDate(date)
-        return {description, amount, date}
+        return { description, amount, date }
     },
 
     save(transaction) {
         Transactions.add(transaction)
     },
-    clearField(){
+    clearField() {
         this.description.value = ''
         this.amount.value = ''
         this.date.value = ''
@@ -151,17 +156,18 @@ const Form = {
 
 }
 
+
 const App = {
     init() {
-
         Transactions.all.forEach(DOM.addTransaction)
-
         DOM.updateBalace()
+        Storage.set(Transactions.all)
     },
     reload() {
         DOM.clearTransactions()
         this.init()
     }
 }
+Storage.get()
 
 App.init()
